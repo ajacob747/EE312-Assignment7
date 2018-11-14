@@ -139,6 +139,7 @@ private:
     void preOrderTraversal(TreeNode* t,vector<ItemType>& result) const;
     void postOrderTraversal(TreeNode* t,vector<ItemType>& result) const;
     void copyTree(TreeNode*& copy, const TreeNode *originalTree);
+    bool isItemInTree(TreeNode* t,const ItemType& item);
 
 };
 
@@ -285,8 +286,33 @@ bool BST_312 <ItemType>::isFull() const
 template<class ItemType>
 void BST_312 <ItemType>::insertItem(TreeNode*& t, const ItemType& newItem)
 {
-
     //YOUR CODE GOES HERE
+    if(t==NULL)
+        return;
+    if(newItem == t->data)
+        return;
+    else if (newItem> t->data) {
+        if (t->right == NULL) {
+            TreeNode *added = new TreeNode;
+            added->data = newItem;
+            added->left = NULL;
+            added->right = NULL;
+            t->right = added;
+            return;
+        } else
+            return insertItem(t->right, newItem);
+    }
+    else if(newItem <t->data){
+        if(t->left == NULL){
+            TreeNode *added = new TreeNode;
+            added->data = newItem;
+            added->left = NULL;
+            added->right = NULL;
+            t->left = added;
+            return;
+        } else
+            return insertItem(t->left,newItem);
+    }
 
 }
 
@@ -294,6 +320,12 @@ template<class ItemType>
 void BST_312 <ItemType>::insertItem(const ItemType& newItem)
 {
     //YOUR CODE GOES HERE
+    if(root == NULL) {
+        root = new TreeNode();
+        root->data = newItem;
+    }
+    else
+        insertItem(root,newItem);
 }
 
 
@@ -302,6 +334,12 @@ template<class ItemType>
 int BST_312 <ItemType>::countNodes(TreeNode* t) const
 {
     //YOUR CODE GOES HERE
+    int count = 1;
+    if(t->right != NULL)
+        count = count + countNodes(t->right);
+    if(t->left!=NULL)
+        count = count + countNodes(t->left);
+    return count;
 
 }
 
@@ -310,12 +348,21 @@ template<class ItemType>
 int BST_312 <ItemType>::countNodes()
 {
     //YOUR CODE GOES HERE
+    int count = 0;
+    if(root!=NULL)
+        count = countNodes(root);
+    return count;
 }
 
 template<class ItemType>
 void BST_312 <ItemType>::preOrderTraversal(TreeNode* t,vector<ItemType>& result) const
 {
     //YOUR CODE GOES HERE
+    if(t==NULL)
+        return;
+    result.push_back(t->data);
+    preOrderTraversal(t->left,result);
+    preOrderTraversal(t->right,result);
 }
 
 
@@ -323,41 +370,70 @@ template<class ItemType>
 vector<ItemType> BST_312 <ItemType>::preOrderTraversal()
 {
     //YOUR CODE GOES HERE
-
+    vector <ItemType> result;
+    preOrderTraversal(root,result);
+    return result;
 }
 
 template<class ItemType>
 void BST_312 <ItemType>::inOrderTraversal(TreeNode* t,vector<ItemType>& result) const
 {
     //YOUR CODE GOES HERE
-
+    if(t==NULL)
+        return;
+    inOrderTraversal(t->left,result);
+    result.push_back(t->data);
+    inOrderTraversal(t->right,result);
 }
 
 template<class ItemType>
 vector<ItemType> BST_312 <ItemType>::inOrderTraversal()
 {
     //YOUR CODE GOES HERE
+    vector <ItemType> result;
+    inOrderTraversal(root,result);
+    return result;
 }
 
 template<class ItemType>
 void BST_312 <ItemType>::postOrderTraversal(TreeNode* t,vector<ItemType>& result) const
 {
-
     //YOUR CODE GOES HERE
+    if(t==NULL)
+        return;
+    postOrderTraversal(t->left,result);
+    postOrderTraversal(t->right,result);
+    result.push_back(t->data);
 }
 
 template<class ItemType>
 vector<ItemType> BST_312 <ItemType>::postOrderTraversal()
 {
     //YOUR CODE GOES HERE
+    vector <ItemType> result;
+    postOrderTraversal(root,result);
+    return result;
 }
 
 template<class ItemType>
 bool BST_312 <ItemType>::isItemInTree(const ItemType& item)
 {
-
-  //YOUR CODE GOES HERE
-
+    //YOUR CODE GOES HERE
+    return isItemInTree(root,item);
 }
+
+template <class ItemType>
+bool BST_312 <ItemType>::isItemInTree(TreeNode *t,const ItemType& item){
+    if(item == NULL)
+        return false;
+    if(item == t->data)
+        return true;
+    else if(item>t->data)
+        return isItemInTree(t->right,item);
+    else if(item <t->data)
+        return isItemInTree(t->left,item);
+    return false;
+}
+
 #endif
 
