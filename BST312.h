@@ -424,7 +424,7 @@ bool BST_312 <ItemType>::isItemInTree(const ItemType& item)
 
 template <class ItemType>
 bool BST_312 <ItemType>::isItemInTree(TreeNode *t,const ItemType& item){
-    if(item == NULL)
+    if(t == NULL)
         return false;
     if(item == t->data)
         return true;

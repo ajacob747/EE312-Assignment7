@@ -48,12 +48,26 @@ int main() {
 
     cout << "Remove items " << endl;
     cout << "number of nodes in tree before delete is " << bst.countNodes() << endl;
-    s = "tree";
+    s = "1";
     bst.deleteItem(s);
     print(bst.postOrderTraversal());
     cout << endl;
     cout << "number of nodes in tree after delete is " << bst.countNodes() << endl;
     cout << endl;
+    bool cont;
+    cont = bst.isItemInTree(s);
+    if(cont == false)
+        cout << s + " is not in tree"<<endl;
+    else
+        cout << s + " is in tree"<< endl;
+    cout <<endl;
+    s = "2";
+    cont = bst.isItemInTree(s);
+    if(cont == false)
+        cout << s + " is not in tree"<<endl;
+    else
+        cout << s + " is in tree"<< endl;
+    cout <<endl;
 
 }
 
