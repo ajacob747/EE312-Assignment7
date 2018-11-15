@@ -249,6 +249,11 @@ template<class ItemType>
 void BST_312 <ItemType>::makeEmpty(TreeNode*& t)
 {
     //YOUR CODE GOES HERE
+    if(t==NULL)
+        return;
+    makeEmpty(t->left);
+    makeEmpty(t->right);
+    delete t;
 }
 
 template<class ItemType>
